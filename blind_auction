@@ -1,0 +1,24 @@
+def find_highest(bidding_dictionary):
+    winner = ""
+    highest = 0
+    for bidder in bidding_dictionary:
+        bid_amount = bidding_dictionary[bidder]
+        if bid_amount >= highest:
+            highest = bid_amount
+            winner = bidder
+    print(f"The winner is {winner} with a bid of ${highest}")
+    #This works too: max(bidders_list, key=name.get)
+
+bidders_list = {}
+question = True
+while question is True:
+    name = input("What is the your name?\n")
+    price = int(input("What is the bid?\n$"))
+    bidders_list[name] = price
+    response = input("Is there another bidder?\n").lower()
+    if response == "yes":
+        question = True
+        print("\n" * 20)
+    else:
+        question = False
+        find_highest(bidders_list)
