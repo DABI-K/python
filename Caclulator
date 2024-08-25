@@ -1,0 +1,70 @@
+def add(n1, n2):
+    return n1 + n2
+
+def subtract(n1, n2):
+    return n1 - n2
+
+def multiply(n1, n2):
+    return n1 * n2
+
+def divide(n1, n2):
+    return n1 / n2
+
+operations = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": divide
+}
+
+#option 1
+# num1 = float(input("What is the 1st number?\n"))
+# keep_operation = True
+# continue_operation = True
+# while keep_operation and continue_operation:
+#     for symbol in operations:
+#         print(symbol)
+#     operator = input("What is the operation you want to perform?\n")
+#     num2 = float(input("What is the 2nd number?\n"))
+#     result = operations[operator](num1, num2)
+#     print(f"{num1} {operator} {num2} = {result}")
+#
+#     keep_num = input(f"Do you want to keep this {result}? 'y' or 'n'\n")
+#     if keep_num == "y":
+#         num1 = result
+#         keep_operation = True
+#         continue_operation = True
+#     elif keep_num == "n":
+#         response = input("Do you want to perform another calculation?\n")
+#         if response == "y":
+#             num1 = float(input("What is the 1st number?\n"))
+#             continue_operation = True
+#         else:
+#             continue_operation = False
+#             print("Thank you for using this calculator!")
+
+
+
+#Option 2
+def calculator():
+    num1 = float(input("What is the 1st number?\n"))
+    keep_operation = True
+    while keep_operation:
+        for symbol in operations:
+            print(symbol)
+        operator = input("What is the operation you want to perform?\n")
+        num2 = float(input("What is the 2nd number?\n"))
+        result = operations[operator](num1, num2)
+        print(f"{num1} {operator} {num2} = {result}")
+
+        keep_num = input(f"Do you want to keep this {result}? 'y' or 'n'\n")
+        if keep_num == "y":
+            num1 = result
+        elif keep_num == "n":
+            response = input("Do you want to perform another calculation?\n")
+            if response == "y":
+                calculator()
+            else:
+                keep_operation = False
+    print("Thank you for using this calculator!")
+calculator()
