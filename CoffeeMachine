@@ -1,0 +1,95 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+profit = 0
+def report():
+    print(f"Water: {resources['water']}ml\n"
+          f"Milk: {resources['milk']}ml\n"
+          f"Coffee: {resources['coffee']}g\n"
+          f"Money: ${profit}")
+
+#TODO 4. Check whether resources are sufficient.
+def resource_check(order_ingredients):
+    """Returns true if the vending machine has enough ingredients, and returns false if there is insufficient ingredients."""
+    for item in order_ingredients:
+        if order_ingredients[item] >= resources[item]:
+            print(f"Sorry there is not enough {item}.")
+            return False
+    return True
+
+#TODO 5. Calculate the total coins inserted.
+def coins_calc():
+    """Calculates and returns the total coins inserted by the user."""
+    print("Please insert coins.")
+    quarters = int(input("How many quarters do you have? "))
+    dimes = int(input("How many dimes do you have? "))
+    nickels = int(input("How many nickels do you have? "))
+    pennies = int(input("How many pennies do you have? "))
+    coins_sum = quarters * .25 + dimes * .1 + nickels * .05 + pennies * .01
+    return coins_sum
+
+#TODO 6. Check whether payment is sufficient.
+def payment_calc(payment, drink_cost):
+    """Returns true if the payment is accepted, returns false if money is not sufficient."""
+    if payment >= drink_cost:
+        exchange = round(payment - drink_cost, 2) #returns the $ in x.xx format.
+        print(f"Here is the exchange: ${exchange}")
+        global profit
+        profit += drink_cost
+        return True
+    else:
+        print("Sorry, that's not enough money. Money refunded.")
+        return False
+
+#TODO 7. Deduct ingredients as the machine processes incoming orders.
+def inventory(drink_name, order_ingredients):
+    """Deduct the required ingredients from the resources."""
+    for item in order_ingredients:
+        resources[item] -= order_ingredients[item]
+    print("Here is the drink!")
+
+#TODO 1. Prompt user by asking “What would you like? (espresso/latte/cappuccino):”
+operate = True
+while operate:
+    user_input = input("What would you like? (espresso/latte/cappuccino): ")
+#TODO 2. Turn off the Coffee Machine by entering “off” to the prompt.
+    if user_input == "off":
+        operate = False
+#TODO 3. Print report if the user enters "report"
+    elif user_input == "report":
+        report()
+    else:
+        drink = MENU[user_input]
+        if resource_check(drink["ingredients"]):
+            payment = coins_calc()
+            if payment_calc(payment, drink["cost"]):
+                inventory(user_input, drink["ingredients"])
